@@ -1,0 +1,1 @@
+Write up untuk PicoCTF
